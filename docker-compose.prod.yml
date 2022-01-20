@@ -17,11 +17,11 @@ services:
     ports:
       - "8000:8000"
     environment:
+      - DEBUG= 'false'
+      - PRODUCTION= 'true'
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - DEBUG=true
-      
     depends_on:
       - db
 
