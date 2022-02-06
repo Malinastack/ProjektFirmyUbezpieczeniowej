@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM python:3
+FROM python:3 as base
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -20,7 +20,6 @@ RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy
 
 FROM base AS runtime
 
-# Copy virtual env from python-deps stage
 COPY --from=python-deps /.venv /.venv
 ENV PATH="/.venv/bin:$PATH"
 
@@ -32,8 +31,8 @@ USER appuser
 # Install application into container
 COPY . .
 
-# Run the application
 ENTRYPOINT ["python", "-m", "http.server"]
-CMD ["--directory", "directory", "8000"]
+CMD ["--directory", ".", "8000"]
+
 
 
