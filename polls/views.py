@@ -1,19 +1,31 @@
 from django.shortcuts import render
-
-# Create your views here.
-
-from django.http import HttpResponse
+from django import forms
+from django.urls import reverse_lazy
 from .models import Client
+from django.views.generic import DetailView, ListView, UpdateView
 
 
-def index(request):
-   clients_list = Client.objects.order_by('-first_name')[:5]
-   context = {
-       'clients_list': clients_list,
-   }
-   return render(request, 'polls/index.html', context)
+class ClientListView(ListView):
+    model = Client
 
 
-def client(request, client_id):
-    response = "Dane osoby %s."
-    return HttpResponse(response % client_id)
+class ClientDetailView(DetailView):
+    model = Client
+
+
+class ClientForm(forms.ModelForm):
+
+    class Meta:
+        model = Client
+        fields = ('first_name', 'last_name')
+
+
+class ClientUpdateView(UpdateView):
+    model = Client
+    form_class = ClientForm
+    success_url = reverse_lazy('polls:client_LISTA')
+
+
+
+
+
