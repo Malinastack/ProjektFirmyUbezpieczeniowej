@@ -4,6 +4,6 @@ from . import views
 app_name = 'polls'
 urlpatterns = [
     path('', ClientListView.as_view(), name='client_list'),
-    path('<int:pk>/', ClientDetailView.as_view(), name='client'),
+    path('<int:pk>/', ClientDetailView.as_view(), name='client_detail'),
     path('edit/<int:pk>', view=views.ClientUpdateView.as_view(), name='client_edit'),
 ]
