@@ -163,8 +163,10 @@ class Payments(models.Model):
         verbose_name = "Payment"
         verbose_name_plural = "Payments"
 
-    amount = models.IntegerField(verbose_name='Amount')
-    payment_date = models.DateField(verbose_name='Payment date')
-    payment_due_date = models.DateField(verbose_name='Payment due date')
-    payment_purpose = models.CharField(max_length=200, verbose_name='Payment purpose')
-    payer = models.ForeignKey(Client, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Payer')
+    amount = models.IntegerField(verbose_name="Amount")
+    payment_date = models.DateField(verbose_name="Payment date")
+    payment_due_date = models.DateField(verbose_name="Payment due date")
+    payment_purpose = models.CharField(max_length=200, verbose_name="Payment purpose")
+    payer = models.ForeignKey(
+        Client, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Payer"
+    )
