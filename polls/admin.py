@@ -1,18 +1,21 @@
 from django.contrib import admin
 
-from .models import Client, Car
+from .models import Client, Car, Damage
+
 # Register your models here.
 
 
-class CreatingClient(admin.ModelAdmin):
-    fields = ['first_name', 'last_name']
+@admin.register(Client)
+class CreatingClientAdmin(admin.ModelAdmin):
+    fields = ["first_name", "last_name"]
 
 
-admin.site.register(Client, CreatingClient)
+@admin.register(Car)
+class CreatingCarAdmin(admin.ModelAdmin):
+    fields = ["mark", "production_year", "plate_numbers"]
 
 
-class CreatingCar(admin.ModelAdmin):
-    fields = ['mark', 'production_year', 'plate_numbers']
+@admin.register(Damage)
+class CreatingDamageAdmin(admin.ModelAdmin):
+    fields = ["damage_explanation", "damage_date", "damage_cost", "assigned_client"]
 
-
-admin.site.register(Car, CreatingCar)
