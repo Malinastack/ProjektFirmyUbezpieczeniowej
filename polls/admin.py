@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Client, Car, Damage
+from .models import Client, Car, Damage, Insurance
 
 # Register your models here.
 
@@ -18,5 +18,10 @@ class CreatingCarAdmin(admin.ModelAdmin):
 @admin.register(Damage)
 class CreatingDamageAdmin(admin.ModelAdmin):
     fields = ["damage_explanation", "damage_date", "damage_cost", "assigned_client"]
+
+
+@admin.register(Insurance)
+class CreatingInsuranceAdmin(admin.ModelAdmin):
+    fields = ["policy_number", "policy_type", "policy_end_date"]
 
 

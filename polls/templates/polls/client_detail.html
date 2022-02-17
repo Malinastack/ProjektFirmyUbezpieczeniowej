@@ -8,6 +8,20 @@
     <p><a href="{% url 'home' %}"> Home </a></p>
     <div class='body'>{{ object.first_name }} </div>
     <div class='body'>{{ object.last_name }} </div>
+    </br>
+    <div>Samochody:</div>
+    {% for car in car_list %}
+    <li>
+        {{ car.mark }}
+        {{ car.plate_numbers }}
+        {{ car.production_year }}
+        </br>
+        Numer polisy:
+        {{ car.insurance_policy.policy_number }}
+    </li>
+        </br>
+    {% endfor %}
+
     <p><a href="{% url 'polls:client_edit' object.id %}"> Edit </a></p>
 </body>
 </html>

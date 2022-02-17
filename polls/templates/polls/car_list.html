@@ -9,15 +9,17 @@
     <p><a href="{% url 'home' %}"> Home </a></p>
     <ul>
     {% for car in object_list %}
-        <li>
+        <li><a href="{% url 'polls:car_edit' car.id %}">
             {{ car.mark }}
             {{ car.plate_numbers }}
-             {{ car.production_year }}
+            {{ car.production_year }}
             {{ car.owner.first_name }}
             {{ car.owner.last_name }}
+            </a>
         </li>
 
     {% endfor %}
     </ul>
+
 </body>
 </html>

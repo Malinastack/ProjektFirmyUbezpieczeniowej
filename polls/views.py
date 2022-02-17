@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django import forms
 from django.urls import reverse_lazy
-from .models import Car, Client
+from .models import Car, Client, Insurance
 from django.views.generic import DetailView, ListView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -12,6 +12,11 @@ class ClientListView(LoginRequiredMixin, ListView):
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
     model = Client
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['car_list'] = Car.objects.filter(owner_id=self.kwargs['pk'])
+        return context
 
 
 class ClientForm(LoginRequiredMixin, forms.ModelForm):
@@ -27,6 +32,10 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class CarListView(LoginRequiredMixin, ListView):
+    model = Car
+
+
+class CarDetailView(LoginRequiredMixin, DetailView):
     model = Car
 
 
@@ -46,3 +55,42 @@ class CarUpdateView(LoginRequiredMixin, UpdateView):
     model = Car
     form_class = CarForm
     success_url = reverse_lazy("polls:car_list")
+
+
+class InsuranceListView(LoginRequiredMixin, ListView):
+    model = Insurance
+
+
+class InsuranceDetailView(LoginRequiredMixin, DetailView):
+    model = Insurance
+
+
+class InsuranceForm(LoginRequiredMixin, forms.ModelForm):
+    class Meta:
+        model = Insurance
+        fields = (
+            "policy_number",
+            "policy_type",
+            "policy_end_date",
+        )
+
+
+class InsuranceUpdateView(LoginRequiredMixin, UpdateView):
+    model = Insurance
+    form_class = InsuranceForm
+    success_url = reverse_lazy("home")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h5>Lista ubezpieczeń</h5>
+    <p><a href="{% url 'home' %}"> Home </a></p>
+    <ul>
+    {% for insurance in object_list %}
+    <li><a href="{%  url 'polls:insurance_edit' insurance.id%}">
+        {{ insurance.policy_type }}
+        {{ insurance.policy_number }}
+        {{ insurance.policy_end_date }}
+    </a>
+    </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
