@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h5>Lista samochodów</h5>
+    <p><a href="{% url 'home' %}"> Home </a></p>
+    <ul>
+    {% for car in object_list %}
+        <li>
+            {{ car.mark }}
+            {{ car.plate_numbers }}
+             {{ car.production_year }}
+            {{ car.owner.first_name }}
+            {{ car.owner.last_name }}
+        </li>
+
+    {% endfor %}
+    </ul>
+</body>
+</html>

@@ -6,6 +6,7 @@
 </head>
 <body>
     <h5>Lista klientów</h5>
+    <p><a href="{% url 'home' %}"> Home </a></p>
     <ul>
     {% for client in object_list %}
     <li><a href="{%  url 'polls:client_detail' client.id %}">{{client.first_name}} {{client.last_name}}</a></li>

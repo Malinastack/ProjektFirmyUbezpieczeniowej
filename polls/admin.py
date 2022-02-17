@@ -19,3 +19,4 @@ class CreatingCarAdmin(admin.ModelAdmin):
 class CreatingDamageAdmin(admin.ModelAdmin):
     fields = ["damage_explanation", "damage_date", "damage_cost", "assigned_client"]
 
+

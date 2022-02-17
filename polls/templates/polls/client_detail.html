@@ -5,7 +5,9 @@
     <title>Siema Siema</title>
 </head>
 <body>
-  <span class='lead'>{{ object.first_name }} </span>
-<div class='body'>{{ object.last_name }} </div>
+    <p><a href="{% url 'home' %}"> Home </a></p>
+    <div class='body'>{{ object.first_name }} </div>
+    <div class='body'>{{ object.last_name }} </div>
+    <p><a href="{% url 'polls:client_edit' object.id %}"> Edit </a></p>
 </body>
 </html>
