@@ -7,6 +7,8 @@ from .views import (
     ClientUpdateView,
     InsuranceListView,
     InsuranceUpdateView,
+    InsuranceCreateView,
+    CarCreateView,
 )
 from . import views
 
@@ -17,6 +19,7 @@ urlpatterns = [
     path("clients/<int:pk>/edit", view=ClientUpdateView.as_view(), name="client_edit"),
     # cars urls
     path("cars/", view=CarListView.as_view(), name="car_list"),
+    path("cars/create", view=CarCreateView.as_view(), name="car_create"),
     path("cars/<int:pk>", view=CarUpdateView.as_view(), name="car_edit"),
     # insurance urls
     path("insurance/", InsuranceListView.as_view(), name="insurance_list"),
@@ -25,4 +28,6 @@ urlpatterns = [
         view=InsuranceUpdateView.as_view(),
         name="insurance_edit",
     ),
+    path("insurance/create", InsuranceCreateView.as_view(), name="insurance_create"),
+
 ]

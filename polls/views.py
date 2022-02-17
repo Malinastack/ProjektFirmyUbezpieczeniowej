@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django import forms
 from django.urls import reverse_lazy
 from .models import Car, Client, Insurance
-from django.views.generic import DetailView, ListView, UpdateView
+from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -57,6 +57,12 @@ class CarUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("polls:car_list")
 
 
+class CarCreateView(LoginRequiredMixin, CreateView):
+    model = Car
+    fields = ["mark", "production_year", "plate_numbers", "owner", "insurance_policy"]
+    success_url = reverse_lazy("polls:car_list")
+
+
 class InsuranceListView(LoginRequiredMixin, ListView):
     model = Insurance
 
@@ -79,6 +85,13 @@ class InsuranceUpdateView(LoginRequiredMixin, UpdateView):
     model = Insurance
     form_class = InsuranceForm
     success_url = reverse_lazy("home")
+
+
+class InsuranceCreateView(LoginRequiredMixin, CreateView):
+    model = Insurance
+    fields = ["policy_number", "policy_type", "policy_end_date"]
+    success_url = reverse_lazy("polls:insurance_list")
+
 
 
 
