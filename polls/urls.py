@@ -10,7 +10,6 @@ from .views import (
     InsuranceCreateView,
     CarCreateView,
 )
-from . import views
 
 app_name = "polls"
 urlpatterns = [

@@ -4,10 +4,16 @@ from django.urls import reverse_lazy
 from .models import Car, Client, Insurance
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 
 
 class ClientListView(LoginRequiredMixin, ListView):
     model = Client
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["car_list"] = Car.objects.all()
+        return context
 
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
@@ -15,7 +21,7 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['car_list'] = Car.objects.filter(owner_id=self.kwargs['pk'])
+        context["car_list"] = Car.objects.filter(owner_id=self.kwargs["pk"])
         return context
 
 
@@ -37,6 +43,7 @@ class CarListView(LoginRequiredMixin, ListView):
 
 class CarDetailView(LoginRequiredMixin, DetailView):
     model = Car
+    context_object_name = 'cars'
 
 
 class CarForm(LoginRequiredMixin, forms.ModelForm):
@@ -65,6 +72,8 @@ class CarCreateView(LoginRequiredMixin, CreateView):
 
 class InsuranceListView(LoginRequiredMixin, ListView):
     model = Insurance
+    context_object_name = 'insurance'
+    queryset = Insurance.objects.all()
 
 
 class InsuranceDetailView(LoginRequiredMixin, DetailView):
@@ -91,19 +100,3 @@ class InsuranceCreateView(LoginRequiredMixin, CreateView):
     model = Insurance
     fields = ["policy_number", "policy_type", "policy_end_date"]
     success_url = reverse_lazy("polls:insurance_list")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
