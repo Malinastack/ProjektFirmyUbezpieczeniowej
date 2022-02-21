@@ -18,8 +18,8 @@
         <th> Numer polisy</th>
         <th> Ważność polisy</th>
     </tr>
-        {% for client in object_list %}
-            {% for car in car_list %}
+        {% for car in car_list %}
+            {% for client in object_list %}
                 {% if client.id == car.owner_id %}
                     <tr>
                         <td>{{ car.owner.first_name }} {{ car.owner.last_name }}</td>

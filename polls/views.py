@@ -11,7 +11,6 @@ class ClientListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["car_list"] = Car.objects.all()
         context["car_list"] = Car.objects.order_by("insurance_policy__policy_end_date")
         return context
 
@@ -76,7 +75,7 @@ class CarCreateView(LoginRequiredMixin, CreateView):
 class InsuranceListView(LoginRequiredMixin, ListView):
     model = Insurance
     context_object_name = "insurance"
-    queryset = Insurance.objects.all()
+    queryset = Insurance.objects.order_by('policy_end_date')
 
 
 class InsuranceDetailView(LoginRequiredMixin, DetailView):
