@@ -19,6 +19,9 @@ class Client(models.Model):
         verbose_name = "Client"
         verbose_name_plural = "Clients"
 
+    def __str__(self):
+        return self.first_name
+
 
 class DeparmentBoss(models.Model):
     first_name = models.CharField(max_length=60, verbose_name="First name")
@@ -131,6 +134,9 @@ class Insurance(models.Model):
         verbose_name="Type of policy",
     )
     policy_end_date = models.DateField(verbose_name="Policy expiry date")
+
+    def __str__(self):
+        return self.policy_number
 
 
 class Car(models.Model):

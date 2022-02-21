@@ -14,8 +14,8 @@ from .views import (
 app_name = "polls"
 urlpatterns = [
     path("clients/", ClientListView.as_view(), name="client_list"),
-    path("clients/<int:pk>/", ClientDetailView.as_view(), name="client_detail"),
-    path("clients/<int:pk>/edit", view=ClientUpdateView.as_view(), name="client_edit"),
+    path("clients/<int:pk>/<car_id>", ClientDetailView.as_view(), name="client_detail"),
+    path("clients/<int:pk>/<car_id>/edit", view=ClientUpdateView.as_view(), name="client_edit"),
     # cars urls
     path("cars/", view=CarListView.as_view(), name="car_list"),
     path("cars/create", view=CarCreateView.as_view(), name="car_create"),

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
+{% extends 'base.html' %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+{% block content %}
 <body>
     <h5>Lista klientów</h5>
     <p><a href="{% url 'home' %}"> Home </a></p>
-    <table>
+    <table class="table table-dark">
     <tr>
         <th> Imię i nazwisko</th>
         <th> Marka samochodu</th>
@@ -16,20 +18,21 @@
         <th> Numer polisy</th>
         <th> Ważność polisy</th>
     </tr>
-    {% for client in object_list %}
+        {% for client in object_list %}
             {% for car in car_list %}
                 {% if client.id == car.owner_id %}
                     <tr>
-                    <td>{{ car.owner.first_name }} {{ car.owner.last_name }}</td>
+                        <td>{{ car.owner.first_name }} {{ car.owner.last_name }}</td>
                     <td>{{ car.mark }}</td>
                     <td>{{ car.production_year }}</td>
                     <td>{{ car.plate_numbers }}</td>
                     <td>{{ car.insurance_policy.policy_number }}</td>
                     <td>{{ car.insurance_policy.policy_end_date }}</td>
+                    <td><a class="btn btn-primary" href="{% url 'polls:client_detail' client.id car.id%}" role="button">Edytuj</a></td>
                     </tr>
-            {% endif %}
+                {% endif %}
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
     </table>
 </body>
 <style>
@@ -38,3 +41,4 @@ table, th, td {
 }
 </style>
 </html>
+{% endblock %}

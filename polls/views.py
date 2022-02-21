@@ -4,7 +4,6 @@ from django.urls import reverse_lazy
 from .models import Car, Client, Insurance
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
 
 
 class ClientListView(LoginRequiredMixin, ListView):
@@ -13,6 +12,7 @@ class ClientListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["car_list"] = Car.objects.all()
+        context["car_list"] = Car.objects.order_by("insurance_policy__policy_end_date")
         return context
 
 
@@ -21,7 +21,10 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # filtrowanie po id klienta i numerach rejestracyjnych
+        # żeby nie wyświetlało listy samochodów tylko jeden
         context["car_list"] = Car.objects.filter(owner_id=self.kwargs["pk"])
+        context["car_list"] = Car.objects.filter(id=self.kwargs["car_id"])
         return context
 
 
@@ -39,11 +42,11 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
 
 class CarListView(LoginRequiredMixin, ListView):
     model = Car
-
+    ordering = ['-mark']
 
 class CarDetailView(LoginRequiredMixin, DetailView):
     model = Car
-    context_object_name = 'cars'
+    context_object_name = "cars"
 
 
 class CarForm(LoginRequiredMixin, forms.ModelForm):
@@ -72,7 +75,7 @@ class CarCreateView(LoginRequiredMixin, CreateView):
 
 class InsuranceListView(LoginRequiredMixin, ListView):
     model = Insurance
-    context_object_name = 'insurance'
+    context_object_name = "insurance"
     queryset = Insurance.objects.all()
 
 

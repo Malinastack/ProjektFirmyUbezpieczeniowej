@@ -20,8 +20,9 @@
         {{ car.insurance_policy.policy_number }}
     </li>
         </br>
+        <p><a href="{% url 'polls:client_edit' object.id car.id%}"> Edit </a></p>
     {% endfor %}
 
-    <p><a href="{% url 'polls:client_edit' object.id %}"> Edit </a></p>
+
 </body>
 </html>
