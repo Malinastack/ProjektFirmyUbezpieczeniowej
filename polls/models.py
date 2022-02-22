@@ -18,9 +18,6 @@ class Client(models.Model):
         verbose_name = "Client"
         verbose_name_plural = "Clients"
 
-    def __str__(self):
-        return self.first_name
-
 
 class DeparmentBoss(models.Model):
     first_name = models.CharField(max_length=60, verbose_name="First name")
@@ -110,6 +107,25 @@ class Notification(models.Model):
     )
 
 
+class Car(models.Model):
+    class Meta:
+        verbose_name = "Car"
+        verbose_name_plural = "Cars"
+
+    mark = models.CharField(max_length=20, verbose_name="Car make")
+    production_year = models.DateField(verbose_name="Production year")
+    plate_numbers = models.CharField(
+        max_length=20, verbose_name="License plate numbers"
+    )
+    owner = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Car owner",
+    )
+
+
 class Insurance(models.Model):
     class Meta:
         verbose_name = "Insurance"
@@ -133,35 +149,7 @@ class Insurance(models.Model):
         verbose_name="Type of policy",
     )
     policy_end_date = models.DateField(verbose_name="Policy expiry date")
-
-    def __str__(self):
-        return self.policy_number
-
-
-class Car(models.Model):
-    class Meta:
-        verbose_name = "Car"
-        verbose_name_plural = "Cars"
-
-    mark = models.CharField(max_length=20, verbose_name="Car make")
-    production_year = models.DateField(verbose_name="Production year")
-    plate_numbers = models.CharField(
-        max_length=20, verbose_name="License plate numbers"
-    )
-    owner = models.ForeignKey(
-        Client,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        verbose_name="Car owner",
-    )
-    insurance_policy = models.ForeignKey(
-        Insurance,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        verbose_name="Insurance",
-    )
+    insured_car = models.ForeignKey(Car, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Client")
 
 
 class Payments(models.Model):
