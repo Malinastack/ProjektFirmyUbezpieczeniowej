@@ -7,8 +7,13 @@
 </head>
 {% block content %}
 <body>
-    <h5>Lista klientów</h5>
-    <p><a href="{% url 'home' %}"> Home </a></p>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #5e5959;">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class ="nav-link" href="{% url 'home' %}"> Home </a>
+            </li>
+        </ul>
+    </nav>
     <table class="table table-dark">
     <tr>
         <th> Imię i nazwisko</th>
@@ -17,6 +22,7 @@
         <th> Numery rejestracyjne</th>
         <th> Numer polisy</th>
         <th> Ważność polisy</th>
+        <th></th>
     </tr>
         {% for car in car_list %}
             {% for client in object_list %}
@@ -28,7 +34,10 @@
                     <td>{{ car.plate_numbers }}</td>
                     <td>{{ car.insurance_policy.policy_number }}</td>
                     <td>{{ car.insurance_policy.policy_end_date }}</td>
-                    <td><a class="btn btn-primary" href="{% url 'polls:client_detail' client.id car.id%}" role="button">Edytuj</a></td>
+                    <td>
+                        <a class="btn btn-outline-success" href="{% url 'polls:client_detail' client.id car.id%}" role="button">Edytuj</a>
+                        <a class="btn btn-outline-warning" href="{% url 'polls:client_detail' client.id car.id%}" role="button">Wiadomość</a>
+                    </td>
                     </tr>
                 {% endif %}
             {% endfor %}

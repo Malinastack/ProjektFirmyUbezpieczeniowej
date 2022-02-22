@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django import forms
+from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from .models import Car, Client, Insurance
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
@@ -27,21 +28,10 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class ClientForm(LoginRequiredMixin, forms.ModelForm):
-    class Meta:
-        model = Client
-        fields = ("first_name", "last_name")
-
-
-class ClientUpdateView(LoginRequiredMixin, UpdateView):
-    model = Client
-    form_class = ClientForm
-    success_url = reverse_lazy("polls:client_list")
-
-
 class CarListView(LoginRequiredMixin, ListView):
     model = Car
-    ordering = ['-mark']
+    ordering = ["-mark"]
+
 
 class CarDetailView(LoginRequiredMixin, DetailView):
     model = Car
@@ -60,6 +50,25 @@ class CarForm(LoginRequiredMixin, forms.ModelForm):
         )
 
 
+class ClientForm(LoginRequiredMixin, forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ("first_name", "last_name")
+
+
+ClientFormSet = inlineformset_factory(
+    Client, Car, fields=("mark", "production_year", "insurance_policy"),
+    fk_name="owner", extra=0
+
+)
+
+
+class ClientUpdateView(LoginRequiredMixin, UpdateView):
+    model = Client
+    success_url = reverse_lazy("polls:client_list")
+    form_class = ClientFormSet
+
+
 class CarUpdateView(LoginRequiredMixin, UpdateView):
     model = Car
     form_class = CarForm
@@ -75,7 +84,7 @@ class CarCreateView(LoginRequiredMixin, CreateView):
 class InsuranceListView(LoginRequiredMixin, ListView):
     model = Insurance
     context_object_name = "insurance"
-    queryset = Insurance.objects.order_by('policy_end_date')
+    queryset = Insurance.objects.order_by("policy_end_date")
 
 
 class InsuranceDetailView(LoginRequiredMixin, DetailView):
