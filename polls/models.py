@@ -18,6 +18,9 @@ class Client(models.Model):
         verbose_name = "Client"
         verbose_name_plural = "Clients"
 
+    def __str__(self):
+        return self.first_name
+
 
 class DeparmentBoss(models.Model):
     first_name = models.CharField(max_length=60, verbose_name="First name")
@@ -125,6 +128,9 @@ class Car(models.Model):
         verbose_name="Car owner",
     )
 
+    def __str__(self):
+        return self.plate_numbers
+
 
 class Insurance(models.Model):
     class Meta:
@@ -149,7 +155,10 @@ class Insurance(models.Model):
         verbose_name="Type of policy",
     )
     policy_end_date = models.DateField(verbose_name="Policy expiry date")
-    insured_car = models.ForeignKey(Car, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Client")
+    insured_car = models.ForeignKey(Car, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Insured car")
+
+    def __str__(self):
+        return self.policy_number
 
 
 class Payments(models.Model):

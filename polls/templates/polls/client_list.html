@@ -26,20 +26,20 @@
     </tr>
         {% for car in car_list %}
             {% for client in object_list %}
-                {% if client.id == car.owner_id %}
-                    <tr>
-                        <td>{{ car.owner.first_name }} {{ car.owner.last_name }}</td>
-                    <td>{{ car.mark }}</td>
-                    <td>{{ car.production_year }}</td>
-                    <td>{{ car.plate_numbers }}</td>
-                    <td>{{ car.insurance_policy.policy_number }}</td>
-                    <td>{{ car.insurance_policy.policy_end_date }}</td>
-                    <td>
-                        <a class="btn btn-outline-success" href="{% url 'polls:client_detail' client.id car.id%}" role="button">Edytuj</a>
-                        <a class="btn btn-outline-warning" href="{% url 'polls:client_detail' client.id car.id%}" role="button">Wiadomość</a>
-                    </td>
-                    </tr>
-                {% endif %}
+                    {% if client.id == car.insured_car.owner_id %}
+                        <tr>
+                            <td>{{ car.insured_car.owner.first_name }} {{ car.insured_car.owner.last_name }}</td>
+                            <td>{{ car.insured_car.mark }}</td>
+                            <td>{{ car.insured_car.production_year }}</td>
+                            <td>{{ car.insured_car.plate_numbers }}</td>
+                            <td>{{ car.policy_number}}</td>
+                            <td>{{ car.policy_end_date}}</td>
+                        <td>
+                            <a class="btn btn-outline-success" href="{% url 'polls:client_detail' client.id car.id%}" role="button">Edytuj</a>
+                            <a class="btn btn-outline-warning" href="{% url 'polls:client_detail' client.id car.id%}" role="button">Wiadomość</a>
+                        </td>
+                        </tr>
+                    {% endif %}
             {% endfor %}
         {% endfor %}
     </table>

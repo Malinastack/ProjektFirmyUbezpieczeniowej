@@ -22,6 +22,6 @@ class CreatingDamageAdmin(admin.ModelAdmin):
 
 @admin.register(Insurance)
 class CreatingInsuranceAdmin(admin.ModelAdmin):
-    fields = ["policy_number", "policy_type", "policy_end_date"]
+    fields = ["policy_number", "policy_type", "policy_end_date", 'insured_car']
 
 

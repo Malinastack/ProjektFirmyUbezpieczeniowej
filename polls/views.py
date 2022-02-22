@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from .models import Car, Client, Insurance
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import CarForm, ClientForm, InsuranceForm
 
 
 class ClientListView(LoginRequiredMixin, ListView):
@@ -11,7 +12,7 @@ class ClientListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["car_list"] = Car.objects.order_by("insurance_policy__policy_end_date")
+        context["car_list"] = Insurance.objects.all()
         return context
 
 
@@ -37,24 +38,6 @@ class CarDetailView(LoginRequiredMixin, DetailView):
     context_object_name = "cars"
 
 
-class CarForm(LoginRequiredMixin, forms.ModelForm):
-    class Meta:
-        model = Car
-        fields = (
-            "mark",
-            "plate_numbers",
-            "production_year",
-            "owner",
-            "insurance_policy",
-        )
-
-
-class ClientForm(LoginRequiredMixin, forms.ModelForm):
-    class Meta:
-        model = Client
-        fields = ("first_name", "last_name")
-
-
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
     success_url = reverse_lazy("polls:client_list")
@@ -69,7 +52,7 @@ class CarUpdateView(LoginRequiredMixin, UpdateView):
 
 class CarCreateView(LoginRequiredMixin, CreateView):
     model = Car
-    fields = ["mark", "production_year", "plate_numbers", "owner", "insurance_policy"]
+    fields = ["mark", "production_year", "plate_numbers", "owner"]
     success_url = reverse_lazy("polls:car_list")
 
 
@@ -81,16 +64,6 @@ class InsuranceListView(LoginRequiredMixin, ListView):
 
 class InsuranceDetailView(LoginRequiredMixin, DetailView):
     model = Insurance
-
-
-class InsuranceForm(LoginRequiredMixin, forms.ModelForm):
-    class Meta:
-        model = Insurance
-        fields = (
-            "policy_number",
-            "policy_type",
-            "policy_end_date",
-        )
 
 
 class InsuranceUpdateView(LoginRequiredMixin, UpdateView):
