@@ -2,7 +2,6 @@
 from django.db import models
 
 
-
 class InsuranceDepartment(models.Model):
     department_name = models.CharField(max_length=50, verbose_name="Department name")
 

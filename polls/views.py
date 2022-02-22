@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django import forms
-from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from .models import Car, Client, Insurance
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
@@ -56,23 +55,16 @@ class ClientForm(LoginRequiredMixin, forms.ModelForm):
         fields = ("first_name", "last_name")
 
 
-ClientFormSet = inlineformset_factory(
-    Client, Car, fields=("mark", "production_year", "insurance_policy"),
-    fk_name="owner", extra=0
-
-)
-
-
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
     success_url = reverse_lazy("polls:client_list")
-    form_class = ClientFormSet
+    form_class = ClientForm
 
 
 class CarUpdateView(LoginRequiredMixin, UpdateView):
     model = Car
     form_class = CarForm
-    success_url = reverse_lazy("polls:car_list")
+    success_url = reverse_lazy("polls:client_list")
 
 
 class CarCreateView(LoginRequiredMixin, CreateView):
