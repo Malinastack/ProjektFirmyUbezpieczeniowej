@@ -23,8 +23,6 @@
         {{ car.plate_numbers }}
         {{ car.production_year }}
         </br>
-        Numer polisy:
-        {{ car.insurance_policy.policy_number }}
     </li>
         </br>
         <p><a class="btn btn-outline-success" href="{% url 'polls:car_edit' car.id%}" role="button">Edytuj</a></p>

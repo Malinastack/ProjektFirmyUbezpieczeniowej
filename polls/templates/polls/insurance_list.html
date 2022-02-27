@@ -10,7 +10,7 @@
     <h5>Lista ubezpieczeń</h5>
     <p><a href="{% url 'home' %}"> Home </a></p>
     <ul>
-    {% for insurance in insurance %}
+    {% for insurance in object_list %}
     <li><a href="{%  url 'polls:insurance_edit' insurance.id%}">
         {{ insurance.policy_type }}
         {{ insurance.policy_number }}

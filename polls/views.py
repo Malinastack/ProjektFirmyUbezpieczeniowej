@@ -1,8 +1,10 @@
+import logging
+
 from django.shortcuts import render
 from django import forms
 from django.urls import reverse_lazy
 from .models import Car, Client, Insurance
-from django.views.generic import DetailView, ListView, UpdateView, CreateView
+from django.views.generic import DetailView, ListView, UpdateView, CreateView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CarForm, ClientForm, InsuranceForm
 
@@ -11,21 +13,19 @@ class ClientListView(LoginRequiredMixin, ListView):
     model = Client
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["car_list"] = Insurance.objects.all()
+        context = super(ClientListView, self).get_context_data(**kwargs)
+        context.update({
+            'insurance_list': Insurance.objects.order_by('policy_end_date'),
+            'car_list': Car.objects.all()
+        })
         return context
+
+    def get_queryset(self):
+        return Client.objects.order_by('last_name')
 
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
     model = Client
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # filtrowanie po id klienta i numerach rejestracyjnych
-        # żeby nie wyświetlało listy samochodów tylko jeden
-        context["car_list"] = Car.objects.filter(owner_id=self.kwargs["pk"])
-        context["car_list"] = Car.objects.filter(id=self.kwargs["car_id"])
-        return context
 
 
 class CarListView(LoginRequiredMixin, ListView):
@@ -76,3 +76,4 @@ class InsuranceCreateView(LoginRequiredMixin, CreateView):
     model = Insurance
     fields = ["policy_number", "policy_type", "policy_end_date"]
     success_url = reverse_lazy("polls:insurance_list")
+

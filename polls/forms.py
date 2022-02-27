@@ -10,14 +10,13 @@ class CarForm(LoginRequiredMixin, forms.ModelForm):
             "mark",
             "plate_numbers",
             "production_year",
-            "owner",
         )
 
 
 class ClientForm(LoginRequiredMixin, forms.ModelForm):
     class Meta:
         model = Client
-        fields = ("first_name", "last_name")
+        fields = ("first_name", "last_name", "owned_car")
 
 
 class InsuranceForm(LoginRequiredMixin, forms.ModelForm):

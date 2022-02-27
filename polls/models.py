@@ -10,9 +10,31 @@ class InsuranceDepartment(models.Model):
         verbose_name_plural = "Insurance departments"
 
 
+class Car(models.Model):
+    class Meta:
+        verbose_name = "Car"
+        verbose_name_plural = "Cars"
+
+    mark = models.CharField(max_length=20, verbose_name="Car make")
+    production_year = models.DateField(verbose_name="Production year")
+    plate_numbers = models.CharField(
+        max_length=20, verbose_name="License plate numbers"
+    )
+
+    def __str__(self):
+        return self.plate_numbers
+
+
 class Client(models.Model):
     first_name = models.CharField(max_length=60, verbose_name="First name")
     last_name = models.CharField(max_length=60, verbose_name="Last name")
+    owned_car = models.ForeignKey(
+        Car,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Owned car",
+    )
 
     class Meta:
         verbose_name = "Client"
@@ -22,7 +44,7 @@ class Client(models.Model):
         return self.first_name
 
 
-class DeparmentBoss(models.Model):
+class DepartmentBoss(models.Model):
     first_name = models.CharField(max_length=60, verbose_name="First name")
     last_name = models.CharField(max_length=60, verbose_name="Last name")
     department = models.ForeignKey(
@@ -110,28 +132,6 @@ class Notification(models.Model):
     )
 
 
-class Car(models.Model):
-    class Meta:
-        verbose_name = "Car"
-        verbose_name_plural = "Cars"
-
-    mark = models.CharField(max_length=20, verbose_name="Car make")
-    production_year = models.DateField(verbose_name="Production year")
-    plate_numbers = models.CharField(
-        max_length=20, verbose_name="License plate numbers"
-    )
-    owner = models.ForeignKey(
-        Client,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        verbose_name="Car owner",
-    )
-
-    def __str__(self):
-        return self.plate_numbers
-
-
 class Insurance(models.Model):
     class Meta:
         verbose_name = "Insurance"
@@ -173,3 +173,6 @@ class Payments(models.Model):
     payer = models.ForeignKey(
         Client, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Payer"
     )
+
+
+

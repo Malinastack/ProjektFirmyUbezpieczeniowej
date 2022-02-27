@@ -7,7 +7,7 @@ from .models import Client, Car, Damage, Insurance
 
 @admin.register(Client)
 class CreatingClientAdmin(admin.ModelAdmin):
-    fields = ["first_name", "last_name"]
+    fields = ["first_name", "last_name", "owned_car"]
 
 
 @admin.register(Car)
