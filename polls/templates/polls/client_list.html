@@ -24,26 +24,30 @@
         <th> Ważność polisy</th>
         <th></th>
     </tr>
-    {% for client in object_list %}
-        {% for car in car_list %}
-            {% if client.owned_car_id == car.id %}
+    {% for k,v  in client_list.items %}
+            {% for cars in v.all_cars %}
                 <tr>
-                <td>{{ client.first_name }} {{ client.last_name }}</td>
-                <td>{{ car.mark }}</td>
-                <td>{{ car.production_year }}</td>
-                <td>{{ car.plate_numbers }}</td>
-                <td>{{ car.policy_number}}</td>
-                <td>{{ car.policy_end_date}}</td>
+                <td> {{ v.first_name }} {{ v.last_name }} </td>
+                <td> {{ cars.mark }} </td>
+                <td> {{ cars.production_year }}</td>
+                <td> {{ cars.plate_numbers }}</td>
+                <td> {{ cars.insurance.policy_number }}</td>
+                <td> {{ cars.insurance.policy_end_date }}</td>
                 <td>
-                    <a class="btn btn-outline-success" href="{% url 'polls:client_detail'  client.id car.id %}" role="button">Edytuj</a>
+                <a class="btn btn-outline-success" href="{% url 'polls:car_edit' cars.id%}" role="button">Edytuj</a>
+                <a class="btn btn-outline-warning" href="{% url 'polls:car_edit' cars.id%}" role="button">Wiadomość</a>
                 </td>
-            {% endif %}
-            </tr>
-        {% endfor %}
-        {% if client.owned_car_id == None%}
-            <td>{{ client.first_name }} {{ client.last_name }}</td>
+            {% endfor %}
+        {% if not v.all_cars  %}
+            <td> {{ v.first_name }} {{ v.last_name }} </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         {% endif %}
-    {% endfor %}
+        </tr>
+        {% endfor %}
     </table>
 </body>
 <style>

@@ -7,12 +7,12 @@ from .models import Client, Car, Damage, Insurance
 
 @admin.register(Client)
 class CreatingClientAdmin(admin.ModelAdmin):
-    fields = ["first_name", "last_name", "owned_car"]
+    fields = ["first_name", "last_name", "cars"]
 
 
 @admin.register(Car)
 class CreatingCarAdmin(admin.ModelAdmin):
-    fields = ["mark", "production_year", "plate_numbers"]
+    fields = ["mark", "production_year", "plate_numbers", "insurance"]
 
 
 @admin.register(Damage)
@@ -22,6 +22,6 @@ class CreatingDamageAdmin(admin.ModelAdmin):
 
 @admin.register(Insurance)
 class CreatingInsuranceAdmin(admin.ModelAdmin):
-    fields = ["policy_number", "policy_type", "policy_end_date", 'insured_car']
+    fields = ["policy_number", "policy_type", "policy_end_date"]
 
 

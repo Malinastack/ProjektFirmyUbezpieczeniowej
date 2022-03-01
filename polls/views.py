@@ -1,7 +1,5 @@
 import logging
 
-from django.shortcuts import render
-from django import forms
 from django.urls import reverse_lazy
 from .models import Car, Client, Insurance
 from django.views.generic import DetailView, ListView, UpdateView, CreateView, TemplateView
@@ -14,14 +12,17 @@ class ClientListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ClientListView, self).get_context_data(**kwargs)
+        dict= {}
+        for client in Client.objects.all():
+            dict[client.id] = {
+                'first_name': client.first_name,
+                'last_name': client.last_name,
+                'all_cars': client.cars.all()
+            }
         context.update({
-            'insurance_list': Insurance.objects.order_by('policy_end_date'),
-            'car_list': Car.objects.all()
+            'client_list': dict
         })
         return context
-
-    def get_queryset(self):
-        return Client.objects.order_by('last_name')
 
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
@@ -30,7 +31,9 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
 
 class CarListView(LoginRequiredMixin, ListView):
     model = Car
-    ordering = ["-mark"]
+
+    def get_queryset(self):
+        return Car.objects.order_by('insurance__policy_end_date')
 
 
 class CarDetailView(LoginRequiredMixin, DetailView):
@@ -52,7 +55,7 @@ class CarUpdateView(LoginRequiredMixin, UpdateView):
 
 class CarCreateView(LoginRequiredMixin, CreateView):
     model = Car
-    fields = ["mark", "production_year", "plate_numbers", "owner"]
+    fields = ["mark", "production_year", "plate_numbers", "insurance"]
     success_url = reverse_lazy("polls:car_list")
 
 

@@ -1,4 +1,6 @@
 # Create your models here.
+from datetime import datetime
+
 from django.db import models
 
 
@@ -8,6 +10,34 @@ class InsuranceDepartment(models.Model):
     class Meta:
         verbose_name = "Insurance department"
         verbose_name_plural = "Insurance departments"
+
+
+class Insurance(models.Model):
+    class Meta:
+        verbose_name = "Insurance"
+        verbose_name_plural = "Insurance"
+
+    NNW = "NNW"
+    Autocasco = "Autocasco"
+    Assistance = "Assistance"
+    OC = "OC"
+    policy_type_choices = (
+        (NNW, "NNW"),
+        (Autocasco, "Autocasco"),
+        (Assistance, "Assistance"),
+        (OC, "OC"),
+    )
+    policy_number = models.CharField(max_length=30, verbose_name="Number of policy")
+    policy_type = models.CharField(
+        max_length=10,
+        choices=policy_type_choices,
+        default=OC,
+        verbose_name="Type of policy",
+    )
+    policy_end_date = models.DateField(verbose_name="Policy expiry date")
+
+    def __str__(self):
+        return self.policy_number
 
 
 class Car(models.Model):
@@ -20,6 +50,7 @@ class Car(models.Model):
     plate_numbers = models.CharField(
         max_length=20, verbose_name="License plate numbers"
     )
+    insurance = models.ForeignKey(Insurance, on_delete=models.CASCADE, null=True, blank=True, verbose_name="insurance")
 
     def __str__(self):
         return self.plate_numbers
@@ -28,17 +59,16 @@ class Car(models.Model):
 class Client(models.Model):
     first_name = models.CharField(max_length=60, verbose_name="First name")
     last_name = models.CharField(max_length=60, verbose_name="Last name")
-    owned_car = models.ForeignKey(
+    cars = models.ManyToManyField(
         Car,
-        on_delete=models.CASCADE,
-        null=True,
         blank=True,
-        verbose_name="Owned car",
+        verbose_name="cars",
     )
 
     class Meta:
         verbose_name = "Client"
         verbose_name_plural = "Clients"
+        ordering = ['cars__insurance__policy_end_date']
 
     def __str__(self):
         return self.first_name
@@ -130,35 +160,6 @@ class Notification(models.Model):
     notification_importance = models.IntegerField(
         verbose_name="Importance of notification"
     )
-
-
-class Insurance(models.Model):
-    class Meta:
-        verbose_name = "Insurance"
-        verbose_name_plural = "Insurance"
-
-    NNW = "NNW"
-    Autocasco = "Autocasco"
-    Assistance = "Assistance"
-    OC = "OC"
-    policy_type_choices = (
-        (NNW, "NNW"),
-        (Autocasco, "Autocasco"),
-        (Assistance, "Assistance"),
-        (OC, "OC"),
-    )
-    policy_number = models.CharField(max_length=30, verbose_name="Number of policy")
-    policy_type = models.CharField(
-        max_length=10,
-        choices=policy_type_choices,
-        default=OC,
-        verbose_name="Type of policy",
-    )
-    policy_end_date = models.DateField(verbose_name="Policy expiry date")
-    insured_car = models.ForeignKey(Car, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Insured car")
-
-    def __str__(self):
-        return self.policy_number
 
 
 class Payments(models.Model):
