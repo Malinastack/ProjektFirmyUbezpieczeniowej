@@ -12,6 +12,12 @@
             <li class="nav-item active">
                 <a class ="nav-link" href="{% url 'home' %}"> Home </a>
             </li>
+            <li>
+                <form method="get">
+                    <input name="q" type="text" placeholder="Search...">
+                    <button type="submit">Submit</button>
+                </form>
+            </li>
         </ul>
     </nav>
     <table class="table table-dark">

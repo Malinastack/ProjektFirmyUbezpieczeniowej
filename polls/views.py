@@ -5,10 +5,19 @@ from .models import Car, Client, Insurance
 from django.views.generic import DetailView, ListView, UpdateView, CreateView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CarForm, ClientForm, InsuranceForm
+from django.db.models import Q
 
 
 class ClientListView(LoginRequiredMixin, ListView):
     model = Client
+
+    # def get_queryset(self):
+    #     if self.request.GET.get == 'q':
+    #         query = self.request.GET.get('q')
+    #         object_list = Client.objects.filter(
+    #             Q(first_name__icontains=query)
+    #         )
+    #         return object_list
 
     def get_context_data(self, **kwargs):
         context = super(ClientListView, self).get_context_data(**kwargs)
@@ -23,6 +32,15 @@ class ClientListView(LoginRequiredMixin, ListView):
             'client_list': dict
         })
         return context
+
+        if self.request.GET.get('q') is not None:
+            query = self.request.GET.get('q')
+            object_list = Client.objects.filter(
+                Q(first_name__icontains=query)
+            )
+            return object_list
+
+
 
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
