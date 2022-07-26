@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+{% block content %}
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #5e5959;">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class ="nav-link" href="{% url 'home' %}"> Home </a>
+            </li>
+            <li>
+                <form method="get">
+                    <input name="q" type="text" placeholder="Search...">
+                    <button type="submit">Submit</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+    <table class="table table-dark">
+    <tr>
+        <th> Imię i nazwisko</th>
+        <th> Marka samochodu</th>
+        <th> Rok produkcji</th>
+        <th> Numery rejestracyjne</th>
+        <th> Numer polisy</th>
+        <th> Ważność polisy</th>
+        <th></th>
+    </tr>
+    {% for k,v  in client_list.items %}
+            {% for cars in v.all_cars %}
+                <tr>
+                <td> {{ v.first_name }} {{ v.last_name }} </td>
+                <td> {{ cars.mark }} </td>
+                <td> {{ cars.production_year }}</td>
+                <td> {{ cars.plate_numbers }}</td>
+                <td> {{ cars.insurance.policy_number }}</td>
+                <td> {{ cars.insurance.policy_end_date }}</td>
+                <td>
+                <a class="btn btn-outline-success" href="{% url 'polls:car_edit' cars.id%}" role="button">Edytuj</a>
+                <a class="btn btn-outline-warning" href="{% url 'polls:car_edit' cars.id%}" role="button">Wiadomość</a>
+                </td>
+            {% endfor %}
+        {% if not v.all_cars  %}
+            <td> {{ v.first_name }} {{ v.last_name }} </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+<style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
+</html>
+{% endblock %}
